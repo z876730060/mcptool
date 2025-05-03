@@ -3,6 +3,7 @@ module mcptool
 go 1.24.2
 
 require (
+	github.com/JohannesKaufmann/html-to-markdown v1.6.0
 	github.com/go-git/go-git/v5 v5.16.0
 	github.com/go-ole/go-ole v1.3.0
 	github.com/go-redis/redis/v8 v8.11.5
@@ -10,11 +11,10 @@ require (
 	github.com/go-vgo/robotgo v0.110.7
 	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
-	github.com/mark3labs/mcp-go v0.20.0
+	github.com/mark3labs/mcp-go v0.25.0
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/playwright-community/playwright-go v0.5101.0
 	github.com/shirou/gopsutil v3.21.11+incompatible
-	gocv.io/x/gocv v0.35.0
 	golang.org/x/text v0.24.0
 )
 
@@ -23,6 +23,8 @@ require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.1.6 // indirect
+	github.com/PuerkitoBio/goquery v1.9.2 // indirect
+	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/cloudflare/circl v1.6.1 // indirect
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
@@ -53,6 +55,7 @@ require (
 	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
 	github.com/shirou/gopsutil/v4 v4.25.1 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
+	github.com/spf13/cast v1.7.1 // indirect
 	github.com/tailscale/win v0.0.0-20250213223159-5992cb43ca35 // indirect
 	github.com/tklauser/go-sysconf v0.3.14 // indirect
 	github.com/tklauser/numcpus v0.9.0 // indirect

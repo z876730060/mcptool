@@ -114,7 +114,6 @@ func addComputerTools(mcpServer *server.MCPServer) {
 	mcpServer.AddTool(mcp.NewTool("computer_sleep",
 		mcp.WithDescription("使计算机进入睡眠模式")),
 		sleepComputer)
-
 }
 
 func currentTime(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {

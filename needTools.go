@@ -12,6 +12,15 @@ import (
 
 // 添加工具生成器功能
 func addToolGenerator(mcpServer *server.MCPServer) {
+	// 注册安全加密工具
+	mcpServer.AddTool(mcp.NewTool("security_tool",
+		mcp.WithDescription("提供安全与加密功能，包括数据加密、解密和哈希计算"),
+		mcp.WithString("action", mcp.Required(), mcp.Description("操作类型: encrypt|decrypt|hash")),
+		mcp.WithString("algorithm", mcp.Required(), mcp.Description("算法类型: aes|rsa|md5|sha256")),
+		mcp.WithString("data", mcp.Required(), mcp.Description("需要处理的数据")),
+		mcp.WithString("key", mcp.DefaultString(""), mcp.Description("加密密钥（如果适用）"))),
+		SecurityToolHandler)
+
 	mcpServer.AddTool(mcp.NewTool("generate_tool",
 		mcp.WithDescription("在用户提出的需求基础上，大模型判断现有的工具无法满足要求，需要创建新的工具，就需要调用这个工具生成新的工具描述文件。"),
 		mcp.WithString("tool_key", mcp.Required(), mcp.Description("工具唯一标识key")),

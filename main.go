@@ -5,10 +5,8 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"log/slog"
-	"net/http"
 	"time"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -63,7 +61,7 @@ func main() {
 	registerRedisTools(mcpServer)
 	addFileBackupTool(mcpServer)
 	// 添加屏幕录制工具
-	addScreenRecorderTool(mcpServer)
+	registerFetchTools(mcpServer)
 
 	mcpServer.AddPrompt(mcp.NewPrompt("open_windows_app", mcp.WithPromptDescription("打开windows应用程序"),
 		mcp.WithArgument("app")),
@@ -102,27 +100,6 @@ func main() {
 
 			time.Sleep(duration)
 			return mcp.NewToolResultText("延迟结束"), nil
-		})
-
-	mcpServer.AddTool(mcp.NewTool("network_search",
-		mcp.WithDescription("Fetches a URL from the internet and extracts its contents as markdown. "),
-		mcp.WithString("url", mcp.Required(), mcp.Description("URL to fetch")),
-		mcp.WithNumber("max_length", mcp.Description("Maximum number of characters to return (default: 5000)")),
-		mcp.WithNumber("start_index", mcp.Description("Start content from this character index (default: 0)")),
-		mcp.WithBoolean("raw", mcp.Description("Get raw content without markdown conversion (default: false)"))),
-		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-			fmt.Println(request.Params.Arguments)
-			url := request.Params.Arguments["url"].(string)
-			resp, err := http.Get(url)
-			if err != nil {
-				return nil, err
-			}
-			defer resp.Body.Close()
-			all, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return nil, err
-			}
-			return mcp.NewToolResultText(string(all)), nil
 		})
 
 	if transport == "sse" {

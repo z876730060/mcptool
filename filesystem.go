@@ -80,19 +80,6 @@ func addCodeTools(mcpServer *server.MCPServer) {
 		editFile)
 }
 
-func getOs(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-	currentOs := os.Getenv("OS")
-	return mcp.NewToolResultText(currentOs), nil
-}
-
-func currentPath(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-	abs, err := filepath.Abs(".")
-	if err != nil {
-		return nil, err
-	}
-	return mcp.NewToolResultText(abs), nil
-}
-
 func createDir(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	if request.Params.Arguments["path"] == nil {
 		return nil, errors.New("path 参数不能为空")
