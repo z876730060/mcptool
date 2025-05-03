@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -159,6 +160,33 @@ func addBrowserTools(mcpServer *server.MCPServer) {
 		mcp.WithString("selector", mcp.Required(), mcp.Description("文件输入框选择器")),
 		mcp.WithString("path", mcp.Required(), mcp.Description("要上传的文件路径"))),
 		uploadFile)
+
+	// 请求拦截
+	mcpServer.AddTool(mcp.NewTool("browser_intercept_request",
+		mcp.WithDescription("拦截指定URL的网络请求"),
+		mcp.WithString("url_pattern", mcp.Required(), mcp.Description("要拦截的URL匹配模式"))),
+		interceptRequest)
+}
+
+// 拦截网络请求
+func interceptRequest(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	if request.Params.Arguments["url_pattern"] == nil {
+		return nil, errors.New("url_pattern参数不能为空")
+	}
+
+	urlPattern := request.Params.Arguments["url_pattern"].(string)
+
+	// 注册请求拦截路由
+	page.Route(urlPattern, func(route playwright.Route) {
+		log.Printf("拦截到请求: %s", route.Request().URL())
+		// 可选：阻止请求
+		// route.Abort()
+		// 可选：继续请求
+		opt := playwright.RouteContinueOptions{}
+		route.Continue(opt)
+	})
+
+	return mcp.NewToolResultText(fmt.Sprintf("已开始拦截匹配 %s 的网络请求", urlPattern)), nil
 }
 
 // 点击元素
